@@ -1,0 +1,36 @@
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log opened at 2014-03-31 22:23:00
+project --topLevelPackage br.com.ufpb.dsc.mma --projectName MMA --java 7 --packaging WAR
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log closed at 2014-03-31 22:23:19
+// Spring Roo 1.2.3.RELEASE [rev 7fd62b6] log opened at 2014-03-31 22:23:41
+jpa setup --database H2_IN_MEMORY --provider ECLIPSELINK 
+entity jpa --class ~.domain.Category --testAutomatically --activeRecord false
+field string --fieldName name --notNull --sizeMin 9 --sizeMax 17
+field number --fieldName minWeight --type float --notNull
+field number --fieldName maxWeight --type float --notNull
+entity jpa --class ~.domain.Fighter --testAutomatically --activeRecord false
+field string --fieldName name --notNull
+field number --fieldName age --type int --notNull --min 21
+field number --fieldName weight --type float --notNull
+field number --fieldName height --type float
+entity jpa --class ~.domain.Fight --testAutomatically --activeRecord false
+field string --fieldName place --notNull
+field date --fieldName fightDateAndTime --type java.util.Date --notNull --timeFormat SHORT --future
+focus --class ~.domain.Category
+field set --fieldName fighters --type ~.domain.Fighter --cardinality MANY_TO_MANY
+focus --class ~.domain.Fighter
+field reference --fieldName category --type ~.domain.Category --cardinality MANY_TO_ONE
+field set --fieldName fights --type ~.domain.Fight --cardinality MANY_TO_MANY
+focus --class ~.domain.Fight
+field reference --fieldName fighter1 --type ~.domain.Fighter --cardinality MANY_TO_ONE
+field reference --fieldName fighter2 --type ~.domain.Fighter --cardinality MANY_TO_ONE
+repository jpa --interface ~.persistence.CategoryRepository --entity ~.domain.Category
+repository jpa --interface ~.persistence.FighterRepository --entity ~.domain.Fighter
+repository jpa --interface ~.persistence.FightRepository --entity ~.domain.Fight
+service --interface ~.service.CategoryService --entity ~.domain.Category
+service --interface ~.service.FighterService --entity ~.domain.Fighter
+service --interface ~.service.FightService --entity ~.domain.Fight
+json add --class ~.domain.Category
+json add --class ~.domain.Fighter
+json add --class ~.domain.Fight
+web mvc json setup
+web mvc json all --package ~.web
